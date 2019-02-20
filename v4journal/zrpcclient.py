@@ -5,15 +5,8 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 
-channel_layer = get_channel_layer()
-"""await channel_layer.send("channel_name", {
-    "type": "chat.message",
-    "text": "Hello there!",
-})"""
-
 def sendDeployments(pv, value):
     type = "renderDeployments"
-    #message = pv + "," + str(value)
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         'send_message',
@@ -22,14 +15,14 @@ def sendDeployments(pv, value):
 
 class Subscriber(zerorpc.Subscriber):
     def testing(self, a, b):
-        #pv.send_message(a)
+        print(a,b)
         sendDeployments(a,b)
 
 
 def testsubscriber():
     print("start subscriber")
     subscriber = Subscriber()
-    subscriber.connect("tcp://0.0.0.0:4243")
+    subscriber.connect("tcp://192.168.176.16:4243") #0.0.0.0:4243") #192.168.144.66
     subscriber.run()
 
 

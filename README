@@ -1,0 +1,6 @@
+required:
+- python3.5+
+- django
+- python-dev for your python
+- channels
+- zerorpc
