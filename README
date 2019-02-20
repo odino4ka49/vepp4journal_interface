@@ -4,3 +4,5 @@ required:
 - python-dev for your python
 - channels
 - zerorpc
+- channels-redis
+- redis
