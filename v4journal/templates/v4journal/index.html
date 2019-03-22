@@ -4,13 +4,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="{% static 'css/c3.css' %}" rel='stylesheet'>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{% static 'js/c3.js' %}"></script>
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/c3v4orbit.js' %}"></script>
     <meta charset="utf-8"/>
     <title>Vepp4 Journal</title>
 </head>
 <body>
-    I'm Vepp4 Journal! Hello!<br/>
+    <h2>Vepp4 Journal</h2><br/>
+    <h1>VEPP4 Orbit</h1><br/>
     <div id="stap_pvs"></div>
+    <div id="c3v4xorbit"></div>
+    <div id="c3v4zorbit"></div>
 
     <script>
 

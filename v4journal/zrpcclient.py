@@ -13,6 +13,7 @@ def sendDeployments(pv, value):
         {'type': 'send_message', 'pv': pv, 'value': value}
     )
 
+
 class Subscriber(zerorpc.Subscriber):
     def testing(self, a, b):
         a = a.decode('utf-8')
