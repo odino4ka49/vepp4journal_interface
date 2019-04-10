@@ -5,19 +5,21 @@
 <html>
 <head>
     <link href="{% static 'css/c3.css' %}" rel='stylesheet'>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="{% static 'js/c3.js' %}"></script>
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/c3v4orbit.js' %}"></script>
+    <script src="{% static 'js/v4orbit.js' %}"></script>
     <meta charset="utf-8"/>
     <title>Vepp4 Journal</title>
 </head>
 <body>
-    <h2>Vepp4 Journal</h2><br/>
-    <h1>VEPP4 Orbit</h1><br/>
+    
     <div id="stap_pvs"></div>
-    <div id="c3v4xorbit"></div>
-    <div id="c3v4zorbit"></div>
+    <iframe src="http://free.timeanddate.com/clock/i6pcizfs/n375/tlru33/fn14/fs24/fcfff/tc003849/ftb/tt0/tw0/tm3/td2/th1/tb2" frameborder="0" width="225" height="30"></iframe>
+    <div id="orbit_data"></div>
+    <div id="v4xorbit"></div>
+    <div id="v4zorbit"></div>
 
     <script>
 
