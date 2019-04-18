@@ -27,7 +27,6 @@
 
         function displayPvDict(){
             var list_div = $("#stap_pvs");
-            console.log(list_div)
             list_div.empty();
             for(var pv in pv_dict){
                 list_div.append($("<p>").append(pv+" "+pv_dict[pv]))
@@ -42,7 +41,11 @@
             var data = JSON.parse(e.data);
             var message = data['message'];
             pv_dict[message.pv] = message.value;
-            displayPvDict();
+            if(message.pv == "VEPP4:orbit:e1_x-I" || message.pv == "VEPP4:orbit:e1_z-I"){
+                //console.log(message.pv)
+                $(document).trigger("orbit_changed", [message.pv,message.value])
+            }
+            //displayPvDict();
         };
 
         chatSocket.onclose = function(e) {

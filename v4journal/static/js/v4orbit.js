@@ -125,7 +125,6 @@ var myConfig =
             "series": [
                 {
                     "values": e1_z,
-                    "text": "Pricing",
                     "line-color": "#007790",
                     "legend-marker": {
                         "type": "circle",
@@ -252,7 +251,6 @@ var myConfig =
             "series": [
                 {
                     "values": e1_x,
-                    "text": "Pricing",
                     "line-color": "#007790",
                     "legend-marker": {
                         "type": "circle",
@@ -305,6 +303,30 @@ function parseMarkers(pos,names){
     return markers;
 }
 
+function myzip(a,b){
+    return(a.map(function(e, i) {
+        return [b[i],e];
+      }));
+}
+
+$(document).on("orbit_changed",function(event, pv,data){
+    //console.log("I'ma here")
+    if(pv == "VEPP4:orbit:e1_x-I"){
+        zingchart.exec('v4xorbit', 'setseriesvalues', {
+            graphid: 1,
+            values : [
+                myzip(data,bpm_pos)
+            ]
+        });
+    }
+    else {
+        zingchart.exec('v4xorbit', 'setseriesvalues', {
+            values : [
+                myzip(data,bpm_pos)
+            ]
+        });
+    }
+});
 
 $(document).ready(function(){
     zingchart.render({ 

@@ -1,3 +1,4 @@
+import json
 import zerorpc
 import threading
 from . import consumers
@@ -17,14 +18,14 @@ def sendDeployments(pv, value):
 class Subscriber(zerorpc.Subscriber):
     def testing(self, a, b):
         a = a.decode('utf-8')
-        print(a,b)
+        #print(type(b))
         sendDeployments(a,b)
 
 
 def testsubscriber():
     print("start subscriber")
     subscriber = Subscriber()
-    subscriber.connect("tcp://192.168.176.16:4243") #0.0.0.0:4243") #192.168.144.66
+    subscriber.connect("tcp://192.168.176.16:4243") #192.168.144.66:4243")#0.0.0.0:4243")
     subscriber.run()
 
 
