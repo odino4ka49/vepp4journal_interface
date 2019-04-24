@@ -25,7 +25,7 @@ class Subscriber(zerorpc.Subscriber):
 def testsubscriber():
     print("start subscriber")
     subscriber = Subscriber()
-    subscriber.connect("tcp://192.168.176.16:4243") #192.168.144.66:4243")#0.0.0.0:4243")
+    subscriber.connect("tcp://192.168.144.66:4243")#192.168.176.16:4243") #0.0.0.0:4243")
     subscriber.run()
 
 

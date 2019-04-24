@@ -1,0 +1,19 @@
+body{
+    color: white;
+    font-family: Arial,Helvetica;
+    background-color: #003849;
+}
+#datetime{
+    display: inline;
+    width: 220px;
+}
+p{
+    display: inline;
+}
+#orbit_data{
+    display: inline;
+    bottom: 5px;
+    position: relative;
+    font-weight: bold;
+    font-size: 18px;
+}

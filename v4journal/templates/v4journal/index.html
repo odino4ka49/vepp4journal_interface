@@ -5,6 +5,7 @@
 <html>
 <head>
     <link href="{% static 'css/c3.css' %}" rel='stylesheet'>
+    <link href="{% static 'css/v4orbit.css' %}" rel='stylesheet'>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="{% static 'js/c3.js' %}"></script>
@@ -14,9 +15,8 @@
     <title>Vepp4 Journal</title>
 </head>
 <body>
-    
-    <div id="stap_pvs"></div>
-    <iframe src="http://free.timeanddate.com/clock/i6pcizfs/n375/tlru33/fn14/fs24/fcfff/tc003849/ftb/tt0/tw0/tm3/td2/th1/tb2" frameborder="0" width="225" height="30"></iframe>
+    <h1>Измеренная орбита</h1>
+    <iframe id="datetime" src="http://free.timeanddate.com/clock/i6pcizfs/n375/tlru33/fn14/fs18/fcfff/tc003849/avb/ftb/tt0/tw0/tm3/td2/th1/tb2" frameborder="0" width="170" height="23"></iframe>
     <div id="orbit_data"></div>
     <div id="v4xorbit"></div>
     <div id="v4zorbit"></div>
@@ -41,10 +41,10 @@
             var data = JSON.parse(e.data);
             var message = data['message'];
             pv_dict[message.pv] = message.value;
-            if(message.pv == "VEPP4:orbit:e1_x-I" || message.pv == "VEPP4:orbit:e1_z-I"){
+            //if(message.pv == "VEPP4:orbit:e1_x-I" || message.pv == "VEPP4:orbit:e1_z-I"){
                 //console.log(message.pv)
                 $(document).trigger("orbit_changed", [message.pv,message.value])
-            }
+            //}
             //displayPvDict();
         };
 

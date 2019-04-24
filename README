@@ -6,3 +6,4 @@ required:
 - zerorpc
 - channels-redis
 - redis
+- simplejson

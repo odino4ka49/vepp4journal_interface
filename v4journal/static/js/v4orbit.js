@@ -3,26 +3,43 @@ var bpm_names = ["STP0","STP2","STP4","SRP1","SRP2","SRP3","SRP4","SRP5","SRP6",
     e1_x = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
     e1_z = [1,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
-var markers = parseMarkers(bpm_pos,bpm_names);
+var window_height = $(window).height(),
+    orbit_data = {"mode": "E1", "VEPP4:EnergySet-RB": 0, "VEPP4:EnergyMeas-RB": 0, "VEPP4:FrequencySet-RB": 0, "VEPP4:CurrentTotal-RB": 0, "VEPP4:CurrentE1-RB": 0, "VEPP4:CurrentE2-RB": 0, "VEPP4:CurrentP1-RB": 0, "VEPP4:CurrentP2-RB": 0};
+
+var markers1 = parseMarkers(bpm_pos,bpm_names);
+var markers2 = parseMarkers(bpm_pos);
+
+function displayOrbitData(){
+    var list_div = $("#orbit_data");
+    list_div.empty();
+    for(var pv in orbit_data){
+        list_div.append($("<p>").append(orbit_data[pv]+"  "))
+    }
+};
 
 var myConfig = 
 {
+
+    theme: 'dark',
+    height: window_height - 50,
     graphset: [
         {
             "type": "line",
             "background-color": "#003849",
             "utc": true,
-            "title": {
+            /*"title": {
                 "y": "7px",
                 "text": "Измеренная орбита",
                 "background-color": "#003849",
                 "font-size": "24px",
                 "font-color": "white",
                 "height": "25px"
-            },
+            },*/
             "plotarea": {
-                //"margin": "20% 8% 14% 12%",
-                "background-color": "#003849"
+                "margin": "30px dynamic 0px dynamic",
+                //"padding": "dynamic dynamic 60px dynamic",
+                "background-color": "#003849",
+                "height": window_height/2 - 120,
             },
             "scale-x": {
                 //"min-value": 1383292800000,
@@ -30,7 +47,7 @@ var myConfig =
                 //"step": 3600000,
                 "line-color": "#f6f7f8",
                 "tick": {
-                    "line-color": "#f6f7f8"
+                    "alpha": 0
                 },
                 "guide": {
                     //"line-color": "#f6f7f8",
@@ -53,7 +70,7 @@ var myConfig =
                 "label": {
                     "visible": false
                 },
-                "markers": markers,
+                "markers": markers1,
                 "min-value": bpm_pos[0]-1,
                 "max-value": bpm_pos[bpm_pos.length-1]+3
             },
@@ -148,16 +165,15 @@ var myConfig =
             "background-color": "#003849",
             "utc": true,
             "plotarea": {
-                //"margin": "20% 8% 14% 12%",
-                "background-color": "#003849"
+                "margin": "1px dynamic",
+                "background-color": "#003849",
+                "height": window_height/2 - 120
             },
             "scale-x": {
-                //"min-value": 1383292800000,
                 "shadow": 0,
-                //"step": 3600000,
                 "line-color": "#f6f7f8",
                 "tick": {
-                    "line-color": "#f6f7f8"
+                    "alpha": 0
                 },
                 "guide": {
                     //"line-color": "#f6f7f8",
@@ -167,23 +183,12 @@ var myConfig =
                     "font-color": "#f6f7f8",
                     "visible": false
                 },
-                /*"transform": {
-                    "type": "date",
-                    "all": "%D, %d %M<br />%h:%i %A",
-                    "guide": {
-                        "visible": false
-                    },
-                    "item": {
-                        "visible": false
-                    }
-                },*/
                 "label": {
                     "visible": false
                 },
-                "markers": markers,
+                "markers": markers2,
                 "min-value": bpm_pos[0]-1,
                 "max-value": bpm_pos[bpm_pos.length-1]+3
-                //"minor-ticks": 0
             },
             "scale-y": {
                 //"values": "0:1000:250",
@@ -212,7 +217,6 @@ var myConfig =
                         "type": "line",
                         "range": [10],
                         "line-color": "#f6f7f8"
-
                     }
                 ]
             },
@@ -272,7 +276,7 @@ var myConfig =
     ]
 };
 
-function parseMarkers(pos,names){
+function parseMarkers(pos,names=[]){
     var markers = [];
     for(i=0;i<pos.length;i++){
         markers.push({
@@ -284,22 +288,87 @@ function parseMarkers(pos,names){
                 "label": {
                     "text": names[i],
                     "font-color": "lightblue",
-                    "padding": "-8 -40"
+                    "padding": "-8 -55",
+                    "font-size": 15.5
                 }
             })
     }
     markers.push({
         "type": 'line',
-            "range": [pos[26]+(pos[27]-pos[26])/2],
-            "line-color": "#f6f7f8",
-            /*"line-gap-size": 100,
-            "line-segment-size": 8,*/
-        })
+        "range": [pos[26]+(pos[27]-pos[26])/2],
+        "line-color": "#f6f7f8",
+        /*"line-gap-size": 100,
+        "line-segment-size": 8,*/
+    })
     markers.push({
-            "type": 'line',
-            "range": [pos[pos.length-1]+2],
-            "line-color": "#f6f7f8"
-        })
+        "type": 'line',
+        "range": [pos[pos.length-1]+2],
+        "line-color": "#f6f7f8"
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[3]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": window_height/2-150,
+        "line-segment-size": 15
+    })
+    markers.push({
+        "type": 'line',
+        "range": [2*pos[11]-pos[10]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": window_height/2-150,
+        "line-segment-size": 15
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[14]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[22]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[31]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[39]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
+    markers.push({
+        "type": 'line',
+        "range": [2*pos[42]-pos[43]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
+    markers.push({
+        "type": 'line',
+        "range": [pos[50]],
+        "line-color": "#f6f7f8",
+        "line-style": "dashed",
+        "line-gap-size": 125,
+        "line-segment-size": 8
+    })
     return markers;
 }
 
@@ -310,7 +379,6 @@ function myzip(a,b){
 }
 
 $(document).on("orbit_changed",function(event, pv,data){
-    //console.log("I'ma here")
     if(pv == "VEPP4:orbit:e1_x-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
@@ -319,12 +387,17 @@ $(document).on("orbit_changed",function(event, pv,data){
             ]
         });
     }
-    else {
+    else if(pv == "VEPP4:orbit:e1_z-I") {
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             values : [
                 myzip(data,bpm_pos)
             ]
         });
+    }
+    else if(pv in orbit_data){
+        console.log(pv,data);
+        orbit_data[pv] = data;
+        displayOrbitData();
     }
 });
 
