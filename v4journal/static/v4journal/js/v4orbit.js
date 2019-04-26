@@ -4,7 +4,7 @@ var bpm_names = ["STP0","STP2","STP4","SRP1","SRP2","SRP3","SRP4","SRP5","SRP6",
     e1_z = [1,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
 var window_height = $(window).height(),
-    orbit_data = {"mode": "E1", "VEPP4:EnergySet-RB": 0, "VEPP4:EnergyMeas-RB": 0, "VEPP4:FrequencySet-RB": 0, "VEPP4:CurrentTotal-RB": 0, "VEPP4:CurrentE1-RB": 0, "VEPP4:CurrentE2-RB": 0, "VEPP4:CurrentP1-RB": 0, "VEPP4:CurrentP2-RB": 0};
+    orbit_data = {"VEPP4:EnergySet-RB": 0, "VEPP4:EnergyMeas-RB": 0, "VEPP4:FrequencySet-RB": 0, "VEPP4:CurrentTotal-RB": 0, "VEPP4:CurrentE1-RB": 0, "VEPP4:CurrentE2-RB": 0, "VEPP4:CurrentP1-RB": 0, "VEPP4:CurrentP2-RB": 0};
 
 var markers1 = parseMarkers(bpm_pos,bpm_names);
 var markers2 = parseMarkers(bpm_pos);
@@ -25,7 +25,8 @@ var myConfig =
     graphset: [
         {
             "type": "line",
-            "background-color": "#003849",
+            "background-color": "#0000000",
+            "alpha": 0.3,//"#003849",
             "utc": true,
             /*"title": {
                 "y": "7px",
@@ -37,8 +38,10 @@ var myConfig =
             },*/
             "plotarea": {
                 "margin": "30px dynamic 0px dynamic",
+                "background-color": "#0000000",
+                "alpha": 0,
                 //"padding": "dynamic dynamic 60px dynamic",
-                "background-color": "#003849",
+                //"background-color": "#003849",
                 "height": window_height/2 - 120,
             },
             "scale-x": {
@@ -162,11 +165,14 @@ var myConfig =
         },
         {
             "type": "line",
-            "background-color": "#003849",
+            "background-color": "#0000000",
+            "alpha": 0.3,
             "utc": true,
             "plotarea": {
                 "margin": "1px dynamic",
-                "background-color": "#003849",
+                "background-color": "#0000000",
+                "alpha": 0,
+                //"background-color": "#003849",
                 "height": window_height/2 - 120
             },
             "scale-x": {
@@ -297,8 +303,6 @@ function parseMarkers(pos,names=[]){
         "type": 'line',
         "range": [pos[26]+(pos[27]-pos[26])/2],
         "line-color": "#f6f7f8",
-        /*"line-gap-size": 100,
-        "line-segment-size": 8,*/
     })
     markers.push({
         "type": 'line',
@@ -379,7 +383,8 @@ function myzip(a,b){
 }
 
 $(document).on("orbit_changed",function(event, pv,data){
-    if(pv == "VEPP4:orbit:e1_x-I"){
+    var mode = $("#mode").val();
+    if(pv == "VEPP4:orbit:"+mode+"_x-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
             values : [
@@ -387,7 +392,7 @@ $(document).on("orbit_changed",function(event, pv,data){
             ]
         });
     }
-    else if(pv == "VEPP4:orbit:e1_z-I") {
+    else if(pv == "VEPP4:orbit:"+mode+"_z-I") {
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             values : [
                 myzip(data,bpm_pos)
@@ -395,7 +400,6 @@ $(document).on("orbit_changed",function(event, pv,data){
         });
     }
     else if(pv in orbit_data){
-        console.log(pv,data);
         orbit_data[pv] = data;
         displayOrbitData();
     }

@@ -1,0 +1,35 @@
+body{
+    color: white;
+    font-family: Arial,Helvetica;
+    /*background-color: #003849;*/
+    background-image: url('/static/v4journal/images/dark-blue-gradient-wallpaper-2.jpg');
+    background-size: cover;
+}
+#datetime{
+    display: inline;
+    width: 220px;
+}
+p{
+    display: inline;
+}
+#mode{
+    display: inline;
+    bottom: 5px;
+    position: relative;
+    color: white;
+    font-family: Arial,Helvetica;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: transparent;
+    background-image: url('/static/v4journal/images/downArrow1.png');
+    border: 0 !important;  /*Removes border*/
+   -webkit-appearance: none;  /*Removes default chrome and safari style*/
+   -moz-appearance: none;
+}
+#orbit_data{
+    display: inline;
+    bottom: 5px;
+    position: relative;
+    font-weight: bold;
+    font-size: 18px;
+}
