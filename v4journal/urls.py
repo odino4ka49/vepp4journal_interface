@@ -8,6 +8,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url('vepp4orbit', views.v4orbit, name='v4orbit'),
 ]
 
 if settings.DEBUG:

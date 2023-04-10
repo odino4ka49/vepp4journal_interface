@@ -1,9 +1,9 @@
 body{
     color: white;
     font-family: Arial,Helvetica;
-    /*background-color: #003849;*/
-    background-image: url('/static/v4journal/images/dark-blue-gradient-wallpaper-2.jpg');
-    background-size: cover;
+    background-color: black;
+    /*background-image: url('/static/v4journal/images/dark-blue-gradient-wallpaper-2.jpg');
+    background-size: cover;*/
 }
 #datetime{
     display: inline;
@@ -11,8 +11,9 @@ body{
 }
 p{
     display: inline;
+    margin: 0 10px;
 }
-#mode{
+.selection{
     display: inline;
     bottom: 5px;
     position: relative;
@@ -26,7 +27,12 @@ p{
    -webkit-appearance: none;  /*Removes default chrome and safari style*/
    -moz-appearance: none;
 }
-#orbit_data{
+.selection option{
+    color: white;
+    background-color: black;
+    border: 0;
+}
+.status_row{
     display: inline;
     bottom: 5px;
     position: relative;

@@ -4,7 +4,71 @@ var bpm_names = ["STP0","STP2","STP4","SRP1","SRP2","SRP3","SRP4","SRP5","SRP6",
     e1_z = [1,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
 var window_height = $(window).height(),
-    orbit_data = {"VEPP4:EnergySet-RB": 0, "VEPP4:EnergyMeas-RB": 0, "VEPP4:FrequencySet-RB": 0, "VEPP4:CurrentTotal-RB": 0, "VEPP4:CurrentE1-RB": 0, "VEPP4:CurrentE2-RB": 0, "VEPP4:CurrentP1-RB": 0, "VEPP4:CurrentP2-RB": 0};
+    orbit_data = {
+        "VEPP4:TableName-RB":{
+            "value": "",
+            "units": ""
+        },
+        "VEPP4:Status-RB":{
+            "value": "",
+            "units": ""
+        },
+        "VEPP4:EnergySet-RB": {
+            "value": 0,
+            "units": "MeV"
+        },
+        "VEPP4:EnergyMeas-RB": {
+            "value": 0,
+            "units": "MeV"
+        },
+        "VEPP4:FrequencySet-RB": {
+            "value": 0,
+            "coef": 0.001,
+            "units": "kHz"
+        },
+        "VEPP4:CurrentTotal-RB": {
+            "value": 0,
+            "units": "mA"
+        },
+        "VEPP4:CurrentE1-RB": {
+            "value": 0,
+            "units": "mA"
+        },
+        "VEPP4:CurrentE2-RB": {
+            "value": 0,
+            "units": "mA"
+        },
+        "VEPP4:CurrentP1-RB": {
+            "value": 0,
+            "units": "mA"
+        },
+        "VEPP4:CurrentP2-RB": {
+            "value": 0,
+            "units": "mA"
+        },
+        "VEPP4:CurrentLifeTime-RB": {
+            "value": 0,
+            "units": ""
+        },
+        "VEPP4:Qx-RB": {
+            "value": 0,
+            "units": ""
+        },
+        "VEPP4:Qz-RB": {
+            "value": 0,
+            "units": ""
+        }
+    },
+    graph_data = {
+        "VEPP4:orbit:e1_x-I": [],
+        "VEPP4:orbit:e1_z-I": [],
+        "VEPP4:orbit:e2_x-I": [],
+        "VEPP4:orbit:e2_z-I": [],
+        "VEPP4:orbit:p1_x-I": [],
+        "VEPP4:orbit:p1_z-I": [],
+        "VEPP4:orbit:p2_x-I": [],
+        "VEPP4:orbit:p2_z-I": []
+    };
 
 var markers1 = parseMarkers(bpm_pos,bpm_names);
 var markers2 = parseMarkers(bpm_pos);
@@ -13,7 +77,29 @@ function displayOrbitData(){
     var list_div = $("#orbit_data");
     list_div.empty();
     for(var pv in orbit_data){
-        list_div.append($("<p>").append(orbit_data[pv]+"  "))
+        var orb_pv = orbit_data[pv];
+            value = orb_pv.value;
+        if("coef" in orb_pv){
+            value *= orb_pv.coef;
+        }
+        list_div.append($("<p>").append(value+" "+orb_pv.units))
+    }
+};
+
+function getMode1(){
+    return $("#mode").val();
+};
+function getMode2(){
+    return $("#mode2").val();
+};
+function setMode2(){
+    var mode1 = getMode1(),
+        modes = ['0','e1','e2','p1','p2'];
+    var mode2_div = $("#mode2");
+    mode2_div.empty();
+    delete modes[modes.indexOf(mode1)];
+    for(var m in modes){
+        mode2_div.append($("<option value="+modes[m]+">").append(modes[m].toUpperCase()));
     }
 };
 
@@ -26,7 +112,7 @@ var myConfig =
         {
             "type": "line",
             "background-color": "#0000000",
-            "alpha": 0.3,//"#003849",
+            "alpha": 0,//"#003849",
             "utc": true,
             /*"title": {
                 "y": "7px",
@@ -145,16 +231,17 @@ var myConfig =
             "series": [
                 {
                     "values": e1_z,
-                    "line-color": "#007790",
-                    "legend-marker": {
+                    //"line-color": "#007790",
+                    /*"legend-marker": {
                         "type": "circle",
                         "size": 5,
                         "background-color": "#007790",
                         "border-width": 1,
                         "shadow": 0,
                         "border-color": "#69dbf1"
-                    },
+                    },*/
                     "marker": {
+                        "alpha": 0,
                         "background-color": "#007790",
                         "border-width": 1,
                         "shadow": 0,
@@ -165,13 +252,11 @@ var myConfig =
         },
         {
             "type": "line",
-            "background-color": "#0000000",
-            "alpha": 0.3,
+            //"background-color": "#0000000",
+            "alpha": 0,
             "utc": true,
             "plotarea": {
                 "margin": "1px dynamic",
-                "background-color": "#0000000",
-                "alpha": 0,
                 //"background-color": "#003849",
                 "height": window_height/2 - 120
             },
@@ -198,7 +283,7 @@ var myConfig =
             },
             "scale-y": {
                 //"values": "0:1000:250",
-                "line-color": "#f6f7f8",
+                //"line-color": "#f6f7f8",
                 "shadow": 0,
                 "tick": {
                     "line-color": "#f6f7f8"
@@ -227,7 +312,7 @@ var myConfig =
                 ]
             },
             "crosshair-x": {
-                "line-color": "#f6f7f8",
+                //"line-color": "#f6f7f8",
                 "plot-label": {
                     "border-radius": "5px",
                     "border-width": "1px",
@@ -235,11 +320,11 @@ var myConfig =
                     "padding": "10px",
                     "font-weight": "bold"
                 },
-                "scale-label": {
+                /*"scale-label": {
                     "font-color": "#00baf0",
                     "background-color": "#f6f7f8",
                     "border-radius": "5px"
-                }
+                }*/
             },
             "tooltip": {
                 "visible": false
@@ -252,25 +337,26 @@ var myConfig =
                     "type": "circle",
                     "size": 3
                 },*/
-                "hover-marker": {
+                /*"hover-marker": {
                     "type": "circle",
                     "size": 4,
                     "border-width": "1px"
-                }
+                }*/
             },
             "series": [
                 {
                     "values": e1_x,
-                    "line-color": "#007790",
-                    "legend-marker": {
+                    //"line-color": "#007790",
+                    /*"legend-marker": {
                         "type": "circle",
                         "size": 5,
                         "background-color": "#007790",
                         "border-width": 1,
                         "shadow": 0,
                         "border-color": "#69dbf1"
-                    },
+                    },*/
                     "marker": {
+                        "alpha": 0,
                         "background-color": "#007790",
                         "border-width": 1,
                         "shadow": 0,
@@ -289,11 +375,12 @@ function parseMarkers(pos,names=[]){
             "type": 'line',
                 "range": [pos[i]],
                 "line-color": "lightblue",
-                "line-gap-size": 4,
+                "line-gap-size": 6,
                 "line-segment-size": 1,
+                "alpha": 0.5,
                 "label": {
                     "text": names[i],
-                    "font-color": "lightblue",
+                    "font-color": "#59c1f9",
                     "padding": "-8 -55",
                     "font-size": 15.5
                 }
@@ -382,32 +469,85 @@ function myzip(a,b){
       }));
 }
 
+
 $(document).on("orbit_changed",function(event, pv,data){
     var mode = $("#mode").val();
+    var mode2 = $("#mode2").val();
+    console.log(orbit_data);
     if(pv == "VEPP4:orbit:"+mode+"_x-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
             values : [
-                myzip(data,bpm_pos)
+                myzip(data, bpm_pos)
             ]
         });
     }
     else if(pv == "VEPP4:orbit:"+mode+"_z-I") {
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             values : [
-                myzip(data,bpm_pos)
+                myzip(data, bpm_pos)
             ]
         });
     }
+    if(pv in graph_data){
+        graph_data[pv] = data;
+        var pv_mode = pv.substring(12,14),
+            graphscale = pv[15];
+        if(pv_mode==mode){
+            if(mode2!='0'){
+                data = substracting(data,graph_data[getPvName(mode2,graphscale)]);
+            }
+            if(graphscale=="x"){
+                zingchart.exec('v4xorbit', 'setseriesvalues', {
+                    graphid: 1,
+                    values : [
+                        myzip(data, bpm_pos)
+                    ]
+                });
+            }
+            else{
+                zingchart.exec('v4xorbit', 'setseriesvalues', {
+                    values : [
+                        myzip(data, bpm_pos)
+                    ]
+                });
+            }
+        }
+    }
     else if(pv in orbit_data){
-        orbit_data[pv] = data;
+        orbit_data[pv].value = data;
         displayOrbitData();
     }
 });
+
+function getPvName(mode,scale){
+    result = "VEPP4:orbit:"+mode+"_"+scale+"-I"
+    return result
+};
+function substracting(a,b){
+    result = a.map(function(item, index) {
+        if(b[index]){
+            if(item) return item-b[index];
+            else return -b[index];
+        }
+        else{
+            if(item) return item;
+            else if(b[index]==null && item == null) return null;
+            else return 0;
+        }
+    });
+    return result;
+}
 
 $(document).ready(function(){
     zingchart.render({ 
         id : 'v4xorbit', 
         data : myConfig
     });
+    displayOrbitData();
+    $("#mode").on('change',function(){
+        setMode2();
+    })
+    setMode2();
 });
+

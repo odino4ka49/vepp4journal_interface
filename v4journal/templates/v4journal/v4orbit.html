@@ -16,27 +16,21 @@
 </head>
 <body>
     <iframe id="datetime" src="http://free.timeanddate.com/clock/i6pcizfs/n375/tlru33/fn14/fs18/fcfff/tct/pct/avb/ftb/tt0/tw0/tm3/td2/th1/tb2" frameborder="0" width="170" height="23" allowTransparency="true"></iframe>
-    <div id="orbit_data"></div>
-    <select id="mode">
+    <div class="status_row" id="orbit_data"></div>
+    <select id="mode" class="status_row selection">
         <option value="e1">E1</option>
         <option value="e2">E2</option>
         <option value="p1">P1</option>
         <option value="p2">P2</option>
     </select>
+    <h3 class="status_row">-</h3>
+    <select id="mode2" class="status_row selection">
+        <option value="0">0</option>
+    </select>
     <div id="v4xorbit"></div>
     <div id="v4zorbit"></div>
 
     <script>
-
-        var pv_dict = {}
-
-        function displayPvDict(){
-            var list_div = $("#stap_pvs");
-            list_div.empty();
-            for(var pv in pv_dict){
-                list_div.append($("<p>").append(pv+" "+pv_dict[pv]))
-            }
-        };
 
         var chatSocket = new WebSocket(
             'ws://' + window.location.host + '/ws/vepp4journal/'
@@ -45,12 +39,7 @@
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);
             var message = data['message'];
-            pv_dict[message.pv] = message.value;
-            //if(message.pv == "VEPP4:orbit:e1_x-I" || message.pv == "VEPP4:orbit:e1_z-I"){
-                //console.log(message.pv)
-                $(document).trigger("orbit_changed", [message.pv,message.value])
-            //}
-            //displayPvDict();
+            $(document).trigger("orbit_changed", [message.pv,message.value])
         };
 
         chatSocket.onclose = function(e) {
