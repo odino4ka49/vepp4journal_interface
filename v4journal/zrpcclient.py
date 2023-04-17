@@ -18,7 +18,6 @@ def sendDeployments(pv, value):
 class Subscriber(zerorpc.Subscriber):
     def testing(self, a, b):
         a = a.decode('utf-8')
-        #print(type(b))
         sendDeployments(a,b)
 
 

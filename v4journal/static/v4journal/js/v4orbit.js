@@ -48,7 +48,7 @@ var window_height = $(window).height(),
         },
         "VEPP4:CurrentLifeTime-RB": {
             "value": 0,
-            "units": ""
+            "units": "sec"
         },
         "VEPP4:Qx-RB": {
             "value": 0,
@@ -473,7 +473,7 @@ function myzip(a,b){
 $(document).on("orbit_changed",function(event, pv,data){
     var mode = $("#mode").val();
     var mode2 = $("#mode2").val();
-    console.log(orbit_data);
+    //console.log(pv,data);
     if(pv == "VEPP4:orbit:"+mode+"_x-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,

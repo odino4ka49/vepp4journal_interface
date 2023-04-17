@@ -19,3 +19,6 @@ def v4orbit(request):
     template = loader.get_template('v4journal/v4orbit.html')
     return HttpResponse(template.render())
 
+def v4beta(request):
+    template = loader.get_template('v4journal/v4beta.html')
+    return HttpResponse(template.render())
