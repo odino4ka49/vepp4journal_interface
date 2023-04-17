@@ -1,0 +1,44 @@
+<!-- chat/templates/chat/index.html -->
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{% static 'v4journal/css/c3.css' %}" rel='stylesheet'>
+    <link href="{% static 'v4journal/css/v4orbit.css' %}" rel='stylesheet'>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{% static 'v4journal/js/c3.js' %}"></script>
+    <script src="{% static 'v4journal/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'v4journal/js/v4beta.js' %}"></script>
+    <meta charset="utf-8"/>
+    <title>Бета ВЭПП4</title>
+</head>
+<body>
+    <iframe id="datetime" src="http://free.timeanddate.com/clock/i6pcizfs/n375/tlru33/fn14/fs18/fcfff/tct/pct/avb/ftb/tt0/tw0/tm3/td2/th1/tb2" frameborder="0" width="170" height="23" allowTransparency="true"></iframe>
+    <div class="status_row" id="orbit_data"></div>
+    <select id="mode2" class="status_row selection">
+        <option value="0">0</option>
+    </select>
+    <div id="v4xorbit"></div>
+    <div id="v4zorbit"></div>
+
+    <script>
+
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/vepp4journal/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            $(document).trigger("orbit_changed", [message.pv,message.value])
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+    </script>
+</body>
+</html>
