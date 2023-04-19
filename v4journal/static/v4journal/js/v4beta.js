@@ -452,7 +452,7 @@ function myzip(a,b){
 
 
 $(document).on("orbit_changed",function(event, pv,data){
-    console.log(pv,data)
+    //console.log(pv,data)
     if(pv == "VEPP4:fourier:Bx-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
