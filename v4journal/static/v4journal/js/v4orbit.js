@@ -470,11 +470,10 @@ function myzip(a,b){
 }
 
 
-$(document).on("orbit_changed",function(event, pv,data){
-    var mode = $("#mode").val();
-    var mode2 = $("#mode2").val();
-    //console.log(pv,data);
-    if(pv == "VEPP4:orbit:"+mode+"_x-I"){
+function updatePvData(pv,data){
+    //console.log(pv,data)
+    if(!data) return;
+    if(pv == "VEPP4:fourier:Bx-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
             values : [
@@ -482,7 +481,7 @@ $(document).on("orbit_changed",function(event, pv,data){
             ]
         });
     }
-    else if(pv == "VEPP4:orbit:"+mode+"_z-I") {
+    else if(pv == "VEPP4:fourier:Bz-I") {
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             values : [
                 myzip(data, bpm_pos)
@@ -491,33 +490,37 @@ $(document).on("orbit_changed",function(event, pv,data){
     }
     if(pv in graph_data){
         graph_data[pv] = data;
-        var pv_mode = pv.substring(12,14),
-            graphscale = pv[15];
-        if(pv_mode==mode){
-            if(mode2!='0'){
-                data = substracting(data,graph_data[getPvName(mode2,graphscale)]);
-            }
-            if(graphscale=="x"){
-                zingchart.exec('v4xorbit', 'setseriesvalues', {
-                    graphid: 1,
-                    values : [
-                        myzip(data, bpm_pos)
-                    ]
-                });
-            }
-            else{
-                zingchart.exec('v4xorbit', 'setseriesvalues', {
-                    values : [
-                        myzip(data, bpm_pos)
-                    ]
-                });
-            }
+        var graphscale = pv[15];
+        if(graphscale=="x"){
+            zingchart.exec('v4xorbit', 'setseriesvalues', {
+                graphid: 1,
+                values : [
+                    myzip(data, bpm_pos)
+                ]
+            });
+        }
+        else{
+            zingchart.exec('v4xorbit', 'setseriesvalues', {
+                values : [
+                    myzip(data, bpm_pos)
+                ]
+            });
         }
     }
     else if(pv in orbit_data){
         orbit_data[pv].value = data;
         displayOrbitData();
     }
+}
+
+$(document).on("pvs_lastdata",function(event,data){
+    for(var pv in data){
+        updatePvData(pv,data[pv]);
+    }
+});
+
+$(document).on("orbit_changed",function(event, pv,data){
+    updatePvData(pv,data);
 });
 
 function getPvName(mode,scale){
