@@ -3,8 +3,8 @@ var bpm_names = ["STP0","STP2","STP4","SRP1","SRP2","SRP3","SRP4","SRP5","SRP6",
     e1_x = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
     e1_z = [1,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
-var window_height = $(window).height(),
-    orbit_data = {
+var window_height = $(window).height();
+var orbit_data = {
         "VEPP4:TableName-RB":{
             "value": "",
             "units": ""
@@ -58,8 +58,8 @@ var window_height = $(window).height(),
             "value": 0,
             "units": ""
         }
-    },
-    graph_data = {
+    };
+var graph_data = {
         "VEPP4:fourier:Bx-I": [],
         "VEPP4:fourier:Bz-I": []
     };
@@ -86,7 +86,6 @@ function getMode1(){
 
 var myConfig = 
 {
-
     theme: 'dark',
     height: window_height - 50,
     graphset: [
@@ -450,9 +449,9 @@ function myzip(a,b){
       }));
 }
 
-
-$(document).on("orbit_changed",function(event, pv,data){
+function updatePvData(pv,data){
     //console.log(pv,data)
+    if(!data) return;
     if(pv == "VEPP4:fourier:Bx-I"){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
@@ -491,6 +490,16 @@ $(document).on("orbit_changed",function(event, pv,data){
         orbit_data[pv].value = data;
         displayOrbitData();
     }
+}
+
+$(document).on("pvs_lastdata",function(event,data){
+    for(var pv in data){
+        updatePvData(pv,data[pv]);
+    }
+});
+
+$(document).on("orbit_changed",function(event, pv,data){
+    updatePvData(pv,data);
 });
 
 function substracting(a,b){

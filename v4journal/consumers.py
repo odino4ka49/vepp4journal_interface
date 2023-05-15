@@ -1,6 +1,7 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 import simplejson
+from . import models 
 
 class PvConsumer(WebsocketConsumer):
     def connect(self):
@@ -13,12 +14,14 @@ class PvConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = simplejson.loads(text_data)
-        message = text_data_json['message']
-        print(message)
+        func = text_data_json["func"]
+        if(func == "get_pvs_data"):
+            pvs = text_data_json['pvs']
+            self.send_message({'type': 'pvs','pvs': models.getPvs(pvs)})
 
     # Receive message from room group
     def send_message(self, message):
-        #print(type(message),message)
+        print(type(message),message)
         # Send message to WebSocket
         self.send(text_data=simplejson.dumps({
             'type': "websocket.send",
