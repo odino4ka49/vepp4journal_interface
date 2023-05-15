@@ -5,6 +5,9 @@ def getPvs(pvs):
     pv_dict = {}
     for pv_name in pvs:
         pv_dict[pv_name] = epics.caget(pv_name)
-        print(isinstance(pv_dict[pv_name],epics.dbr.c_float_Array_54))
+        if(str(type(pv_dict[pv_name]))=="<class 'epics.dbr.c_float_Array_54'>"):
+            print("RRRRRR")
+            print(list(pv_dict[pv_name]))
+            pv_dict[pv_name] = list(pv_dict[pv_name])
     #print(pv_dict)
     return pv_dict
