@@ -84,8 +84,18 @@ function getMode1(){
 };
 
 function renderCharts(bpm_pos,bpm_names){
-    if(!bpm_pos) bpm_pos = bpm_pos_default;
-    if(!bpm_names) bpm_names = bpm_names_default;
+    if(!bpm_pos){
+        bpm_pos = bpm_pos_default;
+    }
+    else {
+        bpm_pos_default = bpm_pos;
+    }
+    if(!bpm_names){
+        bpm_names = bpm_names_default;
+    }
+    else {
+        bpm_names_default = bpm_names;
+    }
     var markers1 = parseMarkers(bpm_pos,bpm_names);
     var markers2 = parseMarkers(bpm_pos);
     var myConfig = 
@@ -466,14 +476,14 @@ function updatePvData(pv,data){
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             graphid: 1,
             values : [
-                myzip(data, bpm_pos)
+                myzip(data, bpm_pos_default)
             ]
         });
     }
     else if(pv == "VEPP4:fourier:Bz-I") {
         zingchart.exec('v4xorbit', 'setseriesvalues', {
             values : [
-                myzip(data, bpm_pos)
+                myzip(data, bpm_pos_default)
             ]
         });
     }
@@ -484,14 +494,14 @@ function updatePvData(pv,data){
             zingchart.exec('v4xorbit', 'setseriesvalues', {
                 graphid: 1,
                 values : [
-                    myzip(data, bpm_pos)
+                    myzip(data, bpm_pos_default)
                 ]
             });
         }
         else{
             zingchart.exec('v4xorbit', 'setseriesvalues', {
                 values : [
-                    myzip(data, bpm_pos)
+                    myzip(data, bpm_pos_default)
                 ]
             });
         }
