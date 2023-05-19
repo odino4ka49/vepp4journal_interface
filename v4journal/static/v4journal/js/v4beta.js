@@ -1,7 +1,7 @@
 var bpm_names_default = ["STP0","STP2","STP4","SRP1","SRP2","SRP3","SRP4","SRP5","SRP6","SRP7","SRP8","SRP9","SIP1","SIP2","SRP10","SRP11","SRP12","SRP13","SRP14","SRP15","SRP16","SRP17","SEP5","SEP4","SEP3","SEP1","SEP0","NEP0","NEP1","NEP3","NEP4","NEP5","NRP17","NRP16","NRP15","NRP14","NRP13","NRP12","NRP11","NRP10","NIP3","NIP1","NRP9","NRP8","NRP7","NRP6","NRP5","NRP4","NRP3","NRP2","NRP1","NTP4","NTP2","NTP0"],
     bpm_pos_default = [2.71,10.038,16.705,20.228,27.375,34.522,41.669,48.817,55.964,63.111,70.258,77.405,87.49,91.671,98.845,105.992,113.139,120.286,127.433,134.58,141.727,148.875,152.573,158.383,166.687,173.956,179.648,186.428,192.119,199.388,207.692,213.502,217.2,224.348,231.495,238.642,245.789,252.936,260.083,267.23,271.882,278.585,288.67,295.817,302.964,310.111,317.258,324.406,331.553,338.7,345.847,349.37,356.037,363.345];
 var e1_x = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-    e1_z = [1,2,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+    e1_z = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 
 var window_height = $(window).height();
 var orbit_data = {
@@ -64,7 +64,6 @@ var graph_data = {
         "VEPP4:fourier:Bz-I": []
     };
 var bpm_pv_names = ["VEPP4:BPM_name-RB","VEPP4:BPM_pos-RB"]
-
 
 function displayOrbitData(){
     var list_div = $("#orbit_data");

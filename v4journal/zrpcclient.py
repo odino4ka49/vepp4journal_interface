@@ -11,7 +11,7 @@ def sendDeployments(pv, value):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         'send_message',
-        {'type': 'pv_update', 'pv': pv, 'value': value}
+        {'type': 'send_message', 'pv': pv, 'value': value}
     )
 
 
@@ -27,9 +27,6 @@ def testsubscriber():
     subscriber.connect("tcp://192.168.176.16:4243") #192.168.144.66:4243")# 
     subscriber.run()
 
-def on_new_client(client_addr, welcome_message):
-    print("New client connected from {}: {}".format(client_addr, welcome_message))
-    
 def mysubscriber():
     client = zerorpc.Client()
     client.connect("tcp://192.168.176.16:4243")

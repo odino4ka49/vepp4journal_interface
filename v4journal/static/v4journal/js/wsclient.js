@@ -5,7 +5,7 @@ var chatSocket = new WebSocket(
 chatSocket.onmessage = function(e) {
     var data = JSON.parse(e.data);
     var message = data['message'];
-    if(message.type == "pv_update"){
+    if(message.type == "send_message"){
         $(document).trigger("orbit_changed", [message.pv,message.value]);
     }
     else if(message.type == "pvs"){
