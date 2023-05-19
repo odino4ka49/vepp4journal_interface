@@ -552,5 +552,8 @@ $(document).ready(function(){
         setMode2();
     })
     setMode2();
+
+    sendMessageToServer(JSON.stringify({"func":"get_pvs_data","pvs": Object.keys(graph_data).concat(Object.keys(orbit_data))}))
+
 });
 
